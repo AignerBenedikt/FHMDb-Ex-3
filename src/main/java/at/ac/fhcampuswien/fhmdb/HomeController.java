@@ -13,6 +13,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
@@ -43,10 +45,14 @@ public class HomeController implements Initializable {
     public JFXButton sortBtn;
 
     public List<Movie> allMovies;
+    @FXML
+    public JFXButton watchlistBtn;
 
     protected ObservableList<Movie> observableMovies = FXCollections.observableArrayList();
 
     protected SortedState sortedState;
+
+    private final Stage stage = FhmdbApplication.stage;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -242,5 +248,13 @@ public class HomeController implements Initializable {
         return movies.stream()
                 .filter(movie -> movie.getReleaseYear() >= startYear && movie.getReleaseYear() <= endYear)
                 .collect(Collectors.toList());
+    }
+
+    public void watchlistBtnClicked(ActionEvent actionEvent) {
+        if (stage != null) {
+            FhmdbApplication app = new FhmdbApplication();
+            Scene watchlistScene = app.getWatchlistScene();
+            stage.setScene(watchlistScene);
+        }
     }
 }
