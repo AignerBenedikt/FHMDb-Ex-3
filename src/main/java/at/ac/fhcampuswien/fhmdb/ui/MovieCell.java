@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
@@ -17,13 +18,16 @@ public class MovieCell extends ListCell<Movie> {
     private final Label detail = new Label();
     private final Label genre = new Label();
     private final JFXButton detailBtn = new JFXButton("Show Details");
-    private final VBox layout = new VBox(title, detail, genre, detailBtn);
+    private final JFXButton watchlistBtn = new JFXButton("Watchlist");
+    private final HBox buttonBox = new HBox(5, detailBtn, watchlistBtn);
+    private final VBox layout = new VBox(title, detail, genre, buttonBox);
     private boolean collapsedDetails = true;
 
     public MovieCell() {
         super();
         // color scheme
         detailBtn.setStyle("-fx-background-color: #f5c518;");
+        watchlistBtn.setStyle("-fx-background-color: #f5c518;");
         title.getStyleClass().add("text-yellow");
         detail.getStyleClass().add("text-white");
         genre.getStyleClass().add("text-white");
@@ -48,6 +52,9 @@ public class MovieCell extends ListCell<Movie> {
                 detailBtn.setText("Show Details");
             }
             setGraphic(layout);
+        });
+        watchlistBtn.setOnMouseClicked(mouseEvent -> {
+
         });
     }
 
