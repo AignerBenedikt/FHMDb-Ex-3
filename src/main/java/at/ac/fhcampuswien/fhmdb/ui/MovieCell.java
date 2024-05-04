@@ -54,7 +54,6 @@ public class MovieCell extends ListCell<Movie> {
             setGraphic(layout);
         });
         watchlistBtn.setOnMouseClicked(mouseEvent -> {
-
         });
     }
 
