@@ -1,6 +1,32 @@
 package at.ac.fhcampuswien.fhmdb.database;
 
-import at.ac.fhcampuswien.fhmdb.models.Movie;
+import com.j256.ormlite.dao.Dao;
+
+import java.sql.SQLException;
+import java.util.List;
 
 public class WatchlistRepository {
+    private Dao<WatchlistMovieEntity, Long> watchlistDao;
+
+    public WatchlistRepository(Dao<WatchlistMovieEntity, Long> watchlistDao) {
+        this.watchlistDao = watchlistDao;
+    }
+
+    public List<WatchlistMovieEntity> getWatchlist() throws SQLException {
+        return watchlistDao.queryForAll();
+    }
+
+    public int addToWatchlist(WatchlistMovieEntity movie) throws SQLException {
+        // Prüfen, ob der Film bereits in der Watchlist ist
+        List<WatchlistMovieEntity> existing = watchlistDao.queryForEq("apiId", movie.getId());
+        if (existing.isEmpty()) {
+            return watchlistDao.create(movie);
+        }
+        return 0;
+    }
+
+    public int removeFromWatchlist(String apiId) throws SQLException {
+        List<WatchlistMovieEntity> movies = watchlistDao.queryForEq("apiId", apiId);
+        return watchlistDao.delete(movies);
+    }
 }
