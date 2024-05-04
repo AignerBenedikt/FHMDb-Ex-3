@@ -82,7 +82,7 @@ public class HomeController implements Initializable {
 
     public void initializeLayout() {
         movieListView.setItems(observableMovies);   // set the items of the listview to the observable list
-        movieListView.setCellFactory(movieListView -> new MovieCell(onAddToWatchlistClicked)); // apply custom cells to the listview
+        movieListView.setCellFactory(movieListView -> new MovieCell()); // apply custom cells to the listview
 
         // genre combobox
         Object[] genres = Genre.values();   // get all genres
@@ -252,17 +252,12 @@ public class HomeController implements Initializable {
             stage.setScene(watchlistScene);
         }
     }
-    private final ClickEventHandler<Movie> onAddToWatchlistClicked = (clickedMovie) -> {
-        // Hier würde der Code stehen, um den Film zur Watchlist hinzuzufügen
-        System.out.println("Added to watchlist: " + clickedMovie.getTitle());
-        // Beispiel: watchlistRepository.addToWatchlist(new WatchlistMovieEntity(clickedMovie.getApiId(), clickedMovie));
-    };
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeState();
         initializeLayout();
-        movieListView.setCellFactory(movieListView -> new MovieCell(onAddToWatchlistClicked));
+        movieListView.setCellFactory(movieListView -> new MovieCell());
     }
 
 
