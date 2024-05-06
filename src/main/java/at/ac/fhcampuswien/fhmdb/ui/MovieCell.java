@@ -1,8 +1,15 @@
 package at.ac.fhcampuswien.fhmdb.ui;
 
+import at.ac.fhcampuswien.fhmdb.database.DatabaseManager;
+import at.ac.fhcampuswien.fhmdb.database.MovieEntity;
+import at.ac.fhcampuswien.fhmdb.database.WatchlistMovieEntity;
+import at.ac.fhcampuswien.fhmdb.database.WatchlistRepository;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
+import com.j256.ormlite.dao.BaseDaoImpl;
+import com.j256.ormlite.dao.Dao;
 import com.jfoenix.controls.JFXButton;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.Background;
@@ -10,6 +17,8 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+
+import java.sql.SQLException;
 import java.util.stream.Collectors;
 
 public class MovieCell extends ListCell<Movie> {
@@ -39,7 +48,7 @@ public class MovieCell extends ListCell<Movie> {
         detail.setWrapText(true);
         layout.setPadding(new Insets(10));
         layout.spacingProperty().set(10);
-        layout.alignmentProperty().set(javafx.geometry.Pos.CENTER_LEFT);
+        layout.alignmentProperty().set(Pos.CENTER_LEFT);
 
         detailBtn.setOnMouseClicked(mouseEvent -> {
             if (collapsedDetails) {
@@ -56,8 +65,21 @@ public class MovieCell extends ListCell<Movie> {
         watchlistBtn.setOnMouseClicked(mouseEvent -> {
             Movie currentMovie = getItem();
             if (currentMovie != null) {
-                System.out.println("Adding to watchlist: " + currentMovie.getTitle());
-                // Hier könntest du deine Methode zum Hinzufügen in die Watchlist aufrufen
+                WatchlistMovieEntity movieEntity = new WatchlistMovieEntity(currentMovie.getApiId(),112);
+                movieEntity.setApiId(currentMovie.getApiId()); // Angenommen, die API-ID des Films entspricht seiner ID;
+                Dao<WatchlistMovieEntity, Long> watchlistDao = null;
+                WatchlistRepository watchlistRepository = new WatchlistRepository(watchlistDao) {
+                }; // Ersetze "yourWatchlistDaoInstance" durch deine tatsächliche Instanz deines Watchlist-Dao
+                try {
+                    int result = watchlistRepository.addToWatchlist(movieEntity);
+                    if (result > 0) {
+                        System.out.println("Adding to watchlist: " + currentMovie.getTitle());
+                    } else {
+                        System.out.println("Movie already exists in watchlist: " + currentMovie.getTitle());
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

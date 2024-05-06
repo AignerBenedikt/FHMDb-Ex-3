@@ -17,6 +17,7 @@ public class Movie {
     private final List<String> writers = new ArrayList<>();
     private final List<String> mainCast = new ArrayList<>();
     private double rating; // 0-10
+    private String apiId;
 
     @Override
     public String toString() {
@@ -100,6 +101,14 @@ public class Movie {
 
     public double getRating() {
         return rating;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getApiId() {
+        return apiId;
     }
 
     public static List<Movie> initializeMovies(){

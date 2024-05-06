@@ -1,11 +1,14 @@
 package at.ac.fhcampuswien.fhmdb.database;
 
+import at.ac.fhcampuswien.fhmdb.models.Genre;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.util.List;
+
 @DatabaseTable(tableName = "moviesEntity")
 public class MovieEntity {
-    @DatabaseField(id=true, generatedId = true)
+    @DatabaseField(generatedId = true)
     private long id;
 
     @DatabaseField
@@ -32,5 +35,18 @@ public class MovieEntity {
     @DatabaseField
     private String apiId;
 
+    public MovieEntity(){}
+
+    public MovieEntity(long id, String title, String description, int releaseYear, int lengthInMinutes, double rating, String genres, String ingUrl, String apiId) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.releaseYear = releaseYear;
+        this.lengthInMinutes = lengthInMinutes;
+        this.rating = rating;
+        this.genres = genres;
+        this.ingUrl = ingUrl;
+        this.apiId = apiId;
+    }
 }
 

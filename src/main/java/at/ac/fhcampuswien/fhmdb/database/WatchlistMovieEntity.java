@@ -1,5 +1,6 @@
 package at.ac.fhcampuswien.fhmdb.database;
 
+import at.ac.fhcampuswien.fhmdb.models.Movie;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -17,5 +18,13 @@ public class WatchlistMovieEntity {
 
     public long getId() {
         return id;
+    }
+
+    public void setApiId(String id) {
+    }
+    public WatchlistMovieEntity(){}
+    public WatchlistMovieEntity(String apiId, long id) {
+        this.apiId = apiId;
+        this.id = id;
     }
 }

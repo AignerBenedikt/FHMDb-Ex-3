@@ -1,35 +1,19 @@
 package at.ac.fhcampuswien.fhmdb.database;
 
+import at.ac.fhcampuswien.fhmdb.models.Movie;
 import com.j256.ormlite.dao.Dao;
 
 import java.sql.SQLException;
 import java.util.List;
 
 public class MovieRepository {
-    private Dao<MovieEntity, Long> movieDao;
+    Dao<MovieEntity,Long> movieDao;
 
-    public MovieRepository(Dao<MovieEntity, Long> movieDao) {
-        this.movieDao = movieDao;
+    public MovieRepository(){
+        this.movieDao = DatabaseManager.getInstance().getMovieDao();
     }
 
-    public List<MovieEntity> getAllMovies() throws SQLException {
-        return movieDao.queryForAll();
-    }
-
-    public int removeMovie(Long movieId) throws SQLException {
-        return movieDao.deleteById(movieId);
-    }
-
-    public int removeAll() throws SQLException {
-        List<MovieEntity> allMovies = movieDao.queryForAll();
-        return movieDao.delete(allMovies);
-    }
-
-    public MovieEntity getMovie(Long movieId) throws SQLException {
-        return movieDao.queryForId(movieId);
-    }
-
-    public int addAllMovies(List<MovieEntity> movies) throws SQLException {
-        return movieDao.create(movies);
+    public void addToWatchlist(Movie movie) {
+        MovieEntity watchlistMovie = new MovieEntity(Long.parseLong(movie.getId()),movie.getTitle(),movie.getDescription(),movie.getReleaseYear(),movie.getLengthInMinutes(),movie.getRating(),movie.getGenres().toString(),movie.getImgUrl(),movie.getApiId());
     }
 }

@@ -7,9 +7,11 @@ module at.ac.fhcampuswien.fhmdb {
     requires com.google.gson;
     requires java.sql;
     requires ormlite.jdbc;
+    requires com.h2database;
 
     opens at.ac.fhcampuswien.fhmdb.models to com.google.gson;
 
+    opens at.ac.fhcampuswien.fhmdb.database to ormlite.jdbc;
     opens at.ac.fhcampuswien.fhmdb to javafx.fxml;
     exports at.ac.fhcampuswien.fhmdb.models;
     exports at.ac.fhcampuswien.fhmdb;
