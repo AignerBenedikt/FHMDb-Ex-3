@@ -1,11 +1,11 @@
-package at.ac.fhcampuswien.fhmdb.models;
+package at.ac.fhcampuswien.fhmdb.database;
 
-import at.ac.fhcampuswien.fhmdb.database.WatchlistRepository;
+import at.ac.fhcampuswien.fhmdb.models.Movie;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class WatchlistMovieEntity extends MovieEntity{
+public class WatchlistMovieEntity extends MovieEntity {
     String id;
     long dbId;
 

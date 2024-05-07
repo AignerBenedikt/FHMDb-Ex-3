@@ -25,7 +25,6 @@
             </padding>
          </Label>
          <Label styleClass="text-white" stylesheets="@styles.css" text="Welcome to FHMDb!" />
-         <JFXButton fx:id="windowBtn" onAction="#windowBtnClicked" styleClass="background-yellow" stylesheets="@styles.css" text="Go to Watchlist" />
       </children>
    </HBox>
    <HBox spacing="5.0" styleClass="background-black" stylesheets="@styles.css">
@@ -36,7 +35,7 @@
          <JFXComboBox fx:id="releaseYearComboBox" focusColor="#f5c518" styleClass="filter-combo-box" stylesheets="@styles.css" />
          <JFXComboBox fx:id="ratingFromComboBox" focusColor="#f5c518" styleClass="filter-combo-box" stylesheets="@styles.css" />
          <JFXButton fx:id="searchBtn" onAction="#searchBtnClicked" styleClass="background-yellow" stylesheets="@styles.css" text="Filter" />
-         <JFXButton fx:id="unFilterBtn" onAction="#unFilterBtnClicked" styleClass="background-yellow" stylesheets="@styles.css" text="UnFilter" />
+         <JFXButton fx:id="windowBtn" onAction="#windowBtnClicked" styleClass="background-yellow" stylesheets="@styles.css" text="Watchlist" />
       </children>
       <VBox.margin>
          <Insets />

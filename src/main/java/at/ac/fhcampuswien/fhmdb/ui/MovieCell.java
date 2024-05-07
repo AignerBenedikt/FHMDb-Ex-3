@@ -2,8 +2,6 @@ package at.ac.fhcampuswien.fhmdb.ui;
 
 import at.ac.fhcampuswien.fhmdb.ClickEventHandler;
 import at.ac.fhcampuswien.fhmdb.HomeController;
-import at.ac.fhcampuswien.fhmdb.database.WatchlistRepository;
-import at.ac.fhcampuswien.fhmdb.models.MovieEntity;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
 import at.ac.fhcampuswien.fhmdb.models.WindowState;
 import com.jfoenix.controls.JFXButton;
@@ -42,8 +40,7 @@ public class MovieCell extends ListCell<Movie> {
         layout.setBackground(new Background(new BackgroundFill(Color.web("#454545"), null, null)));
         watchlistBtn.setStyle("-fx-background-color: #f5c518;");
 
-        // layout
-        //detailBtn.setAlignment(Pos.TOP_RIGHT);
+
         title.fontProperty().set(title.getFont().font(20));
         detail.setWrapText(true);
         layout.setPadding(new Insets(10));
@@ -128,7 +125,6 @@ public class MovieCell extends ListCell<Movie> {
                     .collect(Collectors.joining(", "));
             genre.setText(genres);
 
-            //detail.setMaxWidth(this.getScene().getWidth() - 30);
             detail.setMaxWidth(860);
 
             setGraphic(layout);

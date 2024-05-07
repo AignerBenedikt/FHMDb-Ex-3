@@ -1,11 +1,10 @@
-package at.ac.fhcampuswien.fhmdb.models;
+package at.ac.fhcampuswien.fhmdb.database;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
-import at.ac.fhcampuswien.fhmdb.api.MovieAPI;
+import at.ac.fhcampuswien.fhmdb.models.Genre;
+import at.ac.fhcampuswien.fhmdb.models.Movie;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -26,9 +25,9 @@ public class MovieEntity {
     @DatabaseField
     private String imgUrl;
     @DatabaseField
-    private int lengthInMinutes; // in minutes
+    private int lengthInMinutes;
     @DatabaseField
-    private double rating; // 0-10
+    private double rating;
 
     public MovieEntity(){}
 

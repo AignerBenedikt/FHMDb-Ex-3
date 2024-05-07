@@ -2,7 +2,6 @@ package at.ac.fhcampuswien.fhmdb.database;
 
 import at.ac.fhcampuswien.fhmdb.exceptions.DatabaseException;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
-import at.ac.fhcampuswien.fhmdb.models.MovieEntity;
 import com.j256.ormlite.dao.Dao;
 
 import java.sql.SQLException;

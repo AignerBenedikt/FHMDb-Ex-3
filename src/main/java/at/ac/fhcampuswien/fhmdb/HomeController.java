@@ -1,9 +1,7 @@
 package at.ac.fhcampuswien.fhmdb;
 
 import at.ac.fhcampuswien.fhmdb.api.MovieAPI;
-import at.ac.fhcampuswien.fhmdb.database.DatabaseManager;
-import at.ac.fhcampuswien.fhmdb.database.MovieRepository;
-import at.ac.fhcampuswien.fhmdb.database.WatchlistRepository;
+import at.ac.fhcampuswien.fhmdb.database.*;
 import at.ac.fhcampuswien.fhmdb.exceptions.DatabaseException;
 import at.ac.fhcampuswien.fhmdb.exceptions.MovieAPIException;
 import at.ac.fhcampuswien.fhmdb.models.*;
@@ -83,7 +81,7 @@ public class HomeController implements Initializable {
 
     public void initializeState() throws SQLException {
         try {
-            //throw new MovieAPIException(new RuntimeException());
+
             List<Movie> movies = MovieAPI.getAllMovies();
             movieRepository.removeAll();
             movieRepository.addAllMovies(movies);
@@ -92,7 +90,7 @@ public class HomeController implements Initializable {
             showMovieAPIError(e);
         } finally {
             try {
-                //throw new DatabaseException(new RuntimeException());
+
                 List<Movie> result = MovieEntity.toMovies(movieRepository.getAllMovies());
                 setMovies(result);
                 setMovieList(result);
@@ -101,18 +99,12 @@ public class HomeController implements Initializable {
                 showDatabaseError(e);
             }
         }
-        /*if(MovieAPI.isRequestSuccessful()) {
-            movieRepository.removeAll();
-            movieRepository.addAllMovies(MovieAPI.getAllMovies());
-        }
-        List<Movie> result =MovieEntity.toMovies(movieRepository.getAllMovies());
-        setMovies(result);
-        setMovieList(result);*/
+
 
         sortedState = SortedState.NONE;
         windowState = WindowState.HOME;
 
-        // test stream methods
+
         try {
             System.out.println("getMostPopularActor");
             System.out.println(getMostPopularActor(allMovies));
@@ -136,33 +128,33 @@ public class HomeController implements Initializable {
     }
 
     public void initializeLayout() {
-        movieListView.setItems(observableMovies);   // set the items of the listview to the observable list
-        movieListView.setCellFactory(movieListView -> new MovieCell(onAddToWatchlistClicked,this)); // apply custom cells to the listview
+        movieListView.setItems(observableMovies);
+        movieListView.setCellFactory(movieListView -> new MovieCell(onAddToWatchlistClicked,this));
 
-        // genre combobox
-        Object[] genres = Genre.values();   // get all genres
-        genreComboBox.getItems().add("No filter");  // add "no filter" to the combobox
-        genreComboBox.getItems().addAll(genres);    // add all genres to the combobox
+
+        Object[] genres = Genre.values();
+        genreComboBox.getItems().add("No filter");
+        genreComboBox.getItems().addAll(genres);
         genreComboBox.setPromptText("Filter by Genre");
 
-        // year combobox
-        releaseYearComboBox.getItems().add("No filter");  // add "no filter" to the combobox
-        // fill array with numbers from 1900 to 2023
+
+        releaseYearComboBox.getItems().add("No filter");
+
         Integer[] years = new Integer[124];
         for (int i = 0; i < years.length; i++) {
             years[i] = 1900 + i;
         }
-        releaseYearComboBox.getItems().addAll(years);    // add all years to the combobox
+        releaseYearComboBox.getItems().addAll(years);
         releaseYearComboBox.setPromptText("Filter by Release Year");
 
-        // rating combobox
-        ratingFromComboBox.getItems().add("No filter");  // add "no filter" to the combobox
-        // fill array with numbers from 0 to 10
+
+        ratingFromComboBox.getItems().add("No filter");
+
         Integer[] ratings = new Integer[11];
         for (int i = 0; i < ratings.length; i++) {
             ratings[i] = i;
         }
-        ratingFromComboBox.getItems().addAll(ratings);    // add all ratings to the combobox
+        ratingFromComboBox.getItems().addAll(ratings);
         ratingFromComboBox.setPromptText("Filter by Rating");
     }
 
@@ -192,9 +184,7 @@ public class HomeController implements Initializable {
             sortMovies(SortedState.DESCENDING);
         }
     }
-    // sort movies based on sortedState
-    // by default sorted state is NONE
-    // afterward it switches between ascending and descending
+
     public void sortMovies(SortedState sortDirection) {
         if (sortDirection == SortedState.ASCENDING) {
             observableMovies.sort(Comparator.comparing(Movie::getTitle));
@@ -282,8 +272,7 @@ public class HomeController implements Initializable {
             genre = Genre.valueOf(genreValue);
         }
 
-        //List<Movie> movies = getMovies(searchQuery, genre, releaseYear, ratingFrom);
-        List<Movie> movies = applyAllFilters(searchQuery, genre, releaseYear, ratingFrom);
+        List<Movie> movies = getMovies(searchQuery, genre, releaseYear, ratingFrom);
         setMovies(movies);
         setMovieList(movies);
 
@@ -308,7 +297,7 @@ public class HomeController implements Initializable {
     public void windowBtnClicked(ActionEvent actionEvent) throws SQLException {
         if(windowState == WindowState.HOME){
             windowState = WindowState.WATCHLIST;
-            windowBtn.setText("Go back Home");
+            windowBtn.setText("Home");
             List<Movie> result =WatchlistMovieEntity.watchlistToMovies(watchlistRepository.getWatchlist());
             setMovies(result);
             setMovieList(result);
@@ -316,7 +305,7 @@ public class HomeController implements Initializable {
             movieListView.setCellFactory(movieListView -> new MovieCell(onAddToWatchlistClicked,this));
         } else {
             windowState = WindowState.HOME;
-            windowBtn.setText("Go to Watchlist");
+            windowBtn.setText("Watchlist");
             try {
                 List<Movie> result =MovieEntity.toMovies(movieRepository.getAllMovies());
                 setMovies(result);
@@ -330,28 +319,6 @@ public class HomeController implements Initializable {
         }
     }
 
-    public void unFilterBtnClicked(ActionEvent actionEvent) throws SQLException {
-        searchField.setText(null);
-        genreComboBox.setValue(null);
-        releaseYearComboBox.setValue(null);
-        ratingFromComboBox.setValue(null);
-        List<Movie> result;
-        if(windowState == WindowState.HOME) {
-            try {
-                result = MovieEntity.toMovies(movieRepository.getAllMovies());
-                setMovies(result);
-                setMovieList(result);
-            } catch (DatabaseException e) {
-                System.out.println(e.getMessage());
-                showDatabaseError(e);
-            }
-
-        } else {
-            result = WatchlistMovieEntity.watchlistToMovies(watchlistRepository.getWatchlist());
-            setMovies(result);
-            setMovieList(result);
-        }
-    }
 
     // count which actor is in the most movies
     public String getMostPopularActor(List<Movie> movies) throws DatabaseException {

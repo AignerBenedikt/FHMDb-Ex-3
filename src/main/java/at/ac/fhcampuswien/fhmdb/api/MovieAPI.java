@@ -15,7 +15,7 @@ import java.util.UUID;
 
 public class MovieAPI {
     public static final String DELIMITER = "&";
-    private static final String URL = "http://prog2.fh-campuswien.ac.at/movies"; // https if certificates work
+    private static final String URL = "http://prog2.fh-campuswien.ac.at/movies";
     private static final OkHttpClient client = new OkHttpClient();
 
     private static String buildUrl(UUID id) {
@@ -63,7 +63,7 @@ public class MovieAPI {
         Request request = new Request.Builder()
                 .url(url)
                 .removeHeader("User-Agent")
-                .addHeader("User-Agent", "http.agent")  // needed for the server to accept the request
+                .addHeader("User-Agent", "http.agent")
                 .build();
 
         try (Response response = client.newCall(request).execute()) {
@@ -83,7 +83,7 @@ public class MovieAPI {
         Request request = new Request.Builder()
                 .url(url)
                 .removeHeader("User-Agent")
-                .addHeader("User-Agent", "http.agent")  // needed for the server to accept the request
+                .addHeader("User-Agent", "http.agent")
                 .build();
 
         try (Response response = client.newCall(request).execute()) {
@@ -108,7 +108,7 @@ public class MovieAPI {
         } catch (IOException e) {
             System.err.println(MovieAPI.class + ": http status not ok");
         }
-        //throw new MovieAPIException();
+
         return false;
     }
 }
