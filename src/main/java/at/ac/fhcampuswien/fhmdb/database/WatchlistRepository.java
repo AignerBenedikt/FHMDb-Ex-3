@@ -1,35 +1,43 @@
 package at.ac.fhcampuswien.fhmdb.database;
 
-import at.ac.fhcampuswien.fhmdb.models.Movie;
+import at.ac.fhcampuswien.fhmdb.api.MovieAPI;
+import at.ac.fhcampuswien.fhmdb.models.MovieEntity;
+import at.ac.fhcampuswien.fhmdb.models.WatchlistMovieEntity;
 import com.j256.ormlite.dao.Dao;
 
 import java.sql.SQLException;
 import java.util.List;
 
 public class WatchlistRepository {
-    private static Dao<WatchlistMovieEntity, Long> watchlistDao;
+    Dao<WatchlistMovieEntity, Long> watchlistDao;
 
     public WatchlistRepository() {
-        watchlistDao = DatabaseManager.getInstance().getWatchlistDao();
+        this.watchlistDao = DatabaseManager.getDatabaseManager().getWatchlistDao();
     }
 
     public List<WatchlistMovieEntity> getWatchlist() throws SQLException {
         return watchlistDao.queryForAll();
     }
 
-    public int addToWatchlist(Movie movie) throws SQLException {
-      return watchlistDao.create(movieToWatchlist(movie));
+    public int addToWatchlist(WatchlistMovieEntity movie) throws SQLException {
+        if(this.isInWatchlist(movie.getId())) return 0;
+        return watchlistDao.create(movie);
     }
-    public int removeFromWatchlist(String apiId) throws SQLException {
-        long id = Long.parseLong(apiId);
-        return watchlistDao.delete(movieFromWatchlist(id, apiId));
+
+    public int removeFromWatchlist(String id) throws SQLException {
+        return watchlistDao.delete(getMovieById(id));
     }
-    private WatchlistMovieEntity movieToWatchlist(Movie movie) {
-        long id = Long.parseLong((movie.getId()));
-        String apiId = movie.getApiId();
-        return new WatchlistMovieEntity(id, apiId);
+
+    public WatchlistMovieEntity getMovieById(String id) throws SQLException {
+        List<WatchlistMovieEntity> list = getWatchlist();
+        for (WatchlistMovieEntity m : list) {
+            if(m.getId().equals(id)) return m;
+        }
+        return null;
     }
-    private WatchlistMovieEntity movieFromWatchlist(Long id,String apiId) {
-        return new WatchlistMovieEntity(id, apiId);
+
+    public boolean isInWatchlist (String id) throws SQLException {
+        for(WatchlistMovieEntity m : getWatchlist()) if(m.getId() == id) return true;
+        return false;
     }
 }

@@ -1,7 +1,11 @@
 package at.ac.fhcampuswien.fhmdb.ui;
 
-import at.ac.fhcampuswien.fhmdb.database.*;
+import at.ac.fhcampuswien.fhmdb.ClickEventHandler;
+import at.ac.fhcampuswien.fhmdb.HomeController;
+import at.ac.fhcampuswien.fhmdb.database.WatchlistRepository;
+import at.ac.fhcampuswien.fhmdb.models.MovieEntity;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
+import at.ac.fhcampuswien.fhmdb.models.WindowState;
 import com.jfoenix.controls.JFXButton;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -21,32 +25,35 @@ public class MovieCell extends ListCell<Movie> {
     private final Label detail = new Label();
     private final Label genre = new Label();
     private final JFXButton detailBtn = new JFXButton("Show Details");
-    private final JFXButton watchlistBtn = new JFXButton("Watchlist");
-
-    private final HBox buttonBox = new HBox(5, detailBtn, watchlistBtn);
-    private final VBox layout = new VBox(title, detail, genre, buttonBox);
+    public final JFXButton watchlistBtn = new JFXButton("Watchlist");
+    private final HBox buttons = new HBox(detailBtn, watchlistBtn);
+    private final VBox layout = new VBox(title, detail, genre, buttons);
     private boolean collapsedDetails = true;
-    MovieRepository movieRepository = new MovieRepository();
 
-    WatchlistRepository watchlistRepository = new WatchlistRepository();
 
-    public MovieCell() {
+    public MovieCell(ClickEventHandler addToWatchlist, HomeController homeController) {
         super();
         // color scheme
         detailBtn.setStyle("-fx-background-color: #f5c518;");
-        watchlistBtn.setStyle("-fx-background-color: #f5c518;");
         title.getStyleClass().add("text-yellow");
         detail.getStyleClass().add("text-white");
         genre.getStyleClass().add("text-white");
         genre.setStyle("-fx-font-style: italic");
         layout.setBackground(new Background(new BackgroundFill(Color.web("#454545"), null, null)));
+        watchlistBtn.setStyle("-fx-background-color: #f5c518;");
 
         // layout
+        //detailBtn.setAlignment(Pos.TOP_RIGHT);
         title.fontProperty().set(title.getFont().font(20));
         detail.setWrapText(true);
         layout.setPadding(new Insets(10));
         layout.spacingProperty().set(10);
         layout.alignmentProperty().set(Pos.CENTER_LEFT);
+        buttons.setPadding(new Insets(10));
+        buttons.spacingProperty().set(10);
+        buttons.setAlignment(Pos.TOP_RIGHT);
+        if(homeController.windowState == WindowState.WATCHLIST) watchlistBtn.setText("Remove");
+
 
         detailBtn.setOnMouseClicked(mouseEvent -> {
             if (collapsedDetails) {
@@ -60,9 +67,11 @@ public class MovieCell extends ListCell<Movie> {
             }
             setGraphic(layout);
         });
+
         watchlistBtn.setOnMouseClicked(mouseEvent -> {
             try {
-                watchlistRepository.addToWatchlist(getItem());
+                addToWatchlist.onClick(getItem());
+
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -74,6 +83,7 @@ public class MovieCell extends ListCell<Movie> {
         Label releaseYear = new Label("Release Year: " + getItem().getReleaseYear());
         Label length = new Label("Length: " + getItem().getLengthInMinutes() + " minutes");
         Label rating = new Label("Rating: " + getItem().getRating() + "/10");
+        Label id = new Label("Id: " + getItem().getId());
 
         Label directors = new Label("Directors: " + String.join(", ", getItem().getDirectors()));
         Label writers = new Label("Writers: " + String.join(", ", getItem().getWriters()));
@@ -85,7 +95,9 @@ public class MovieCell extends ListCell<Movie> {
         directors.getStyleClass().add("text-white");
         writers.getStyleClass().add("text-white");
         mainCast.getStyleClass().add("text-white");
+        id.getStyleClass().add("text-white");
 
+        details.getChildren().add(id);
         details.getChildren().add(releaseYear);
         details.getChildren().add(rating);
         details.getChildren().add(length);
@@ -94,7 +106,6 @@ public class MovieCell extends ListCell<Movie> {
         details.getChildren().add(mainCast);
         return details;
     }
-
     @Override
     protected void updateItem(Movie movie, boolean empty) {
         super.updateItem(movie, empty);
@@ -117,9 +128,11 @@ public class MovieCell extends ListCell<Movie> {
                     .collect(Collectors.joining(", "));
             genre.setText(genres);
 
-            detail.setMaxWidth(this.getScene().getWidth() - 30);
+            //detail.setMaxWidth(this.getScene().getWidth() - 30);
+            detail.setMaxWidth(860);
 
             setGraphic(layout);
         }
     }
 }
+

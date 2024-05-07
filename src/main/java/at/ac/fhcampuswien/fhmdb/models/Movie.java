@@ -17,11 +17,10 @@ public class Movie {
     private final List<String> writers = new ArrayList<>();
     private final List<String> mainCast = new ArrayList<>();
     private double rating; // 0-10
-    private String apiId;
 
     @Override
     public String toString() {
-        return this.title;
+        return this.id;
     }
 
     public Movie(String title, String description, List<Genre> genres) {
@@ -49,6 +48,17 @@ public class Movie {
         this.rating = rating;
     }
 
+    public Movie(MovieEntity movieEntity){
+        this.id=movieEntity.getId();
+        this.title=movieEntity.getTitle();
+        this.description=movieEntity.getDescription();
+        this.genres=stringToGenres(movieEntity.getGenres());
+        this.releaseYear=movieEntity.getReleaseYear();
+        this.imgUrl=movieEntity.getImgUrl();
+        this.lengthInMinutes=movieEntity.getLengthInMinutes();
+        this.rating=movieEntity.getRating();
+    }
+
     @Override
     public boolean equals(Object obj) {
         if(obj == null) {
@@ -61,6 +71,10 @@ public class Movie {
             return false;
         }
         return this.title.equals(other.title) && this.description.equals(other.description) && this.genres.equals(other.genres);
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getTitle() {
@@ -103,15 +117,18 @@ public class Movie {
         return rating;
     }
 
-    public String getId() {
-        return id;
+    private List<Genre> stringToGenres(String string){
+        List<String> list = List.of(string.substring(1,string.length()-1).split(", "));
+        List<Genre> genres = new ArrayList<>();
+        for(String s : list) genres.add(Genre.valueOf(s));
+        return genres;
     }
 
-    public String getApiId() {
-        return apiId;
+    public MovieEntity toMovieEntity(){
+        return new MovieEntity(this);
     }
 
-    public static List<Movie> initializeMovies(){
+    /*public static List<Movie> initializeMovies(){
         List<Movie> movies = new ArrayList<>();
         movies.add(new Movie(
                 null,
@@ -161,5 +178,5 @@ public class Movie {
                 8.2));
 
         return movies;
-    }
+    }*/
 }

@@ -65,8 +65,9 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <version>2.2.224</version>
-            <scope>test</scope>
+            <scope>compile</scope>  <!-- Changed from test to compile -->
         </dependency>
+
 
         <!-- https://mvnrepository.com/artifact/com.j256.ormlite/ormlite-jdbc -->
         <dependency>
@@ -74,13 +75,6 @@
             <artifactId>ormlite-jdbc</artifactId>
             <version>6.1</version>
         </dependency>
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>2.2.224</version>
-            <scope>compile</scope>
-        </dependency>
-
 
     </dependencies>
 
