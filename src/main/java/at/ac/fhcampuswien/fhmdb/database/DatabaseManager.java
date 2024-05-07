@@ -35,7 +35,7 @@ public class DatabaseManager {
     public void testDBM() throws SQLException {
         MovieEntity movie = new MovieEntity(012, "HS", "DU HS!", 2002, 30, 6.9, "DRAMA", "ahdsjf","tt012");
         movieDao.create(movie);
-        WatchlistMovieEntity watchlistMovie = new WatchlistMovieEntity("tt013",013);
+        WatchlistMovieEntity watchlistMovie = new WatchlistMovieEntity(013,"tt013");
         watchlistDao.create(watchlistMovie);
     }
     public Dao<MovieEntity,Long> getMovieDao() {

@@ -13,7 +13,17 @@ public class MovieRepository {
         this.movieDao = DatabaseManager.getInstance().getMovieDao();
     }
 
-    public void addToWatchlist(Movie movie) {
-        MovieEntity watchlistMovie = new MovieEntity(Long.parseLong(movie.getId()),movie.getTitle(),movie.getDescription(),movie.getReleaseYear(),movie.getLengthInMinutes(),movie.getRating(),movie.getGenres().toString(),movie.getImgUrl(),movie.getApiId());
+   /* public List<MovieEntity> getAllMovies(){
+
     }
+
+    public int removeAll(){
+
+    }
+
+    public MovieEntity getMovie(){}
+
+    public int addAllMovies(List<Movie> movies) throws SQLException {
+
+    }*/
 }

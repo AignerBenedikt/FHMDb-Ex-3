@@ -12,13 +12,22 @@ public class MovieEntity {
     private long id;
 
     @DatabaseField
+    private String apiId;
+
+    @DatabaseField
     private String title;
 
     @DatabaseField
     private String description;
 
     @DatabaseField
+    private String genres;
+
+    @DatabaseField
     private int releaseYear;
+
+    @DatabaseField
+    private String imgUrl;
 
     @DatabaseField
     private int lengthInMinutes;
@@ -26,18 +35,10 @@ public class MovieEntity {
     @DatabaseField
     private double rating;
 
-    @DatabaseField
-    private String genres;
-
-    @DatabaseField
-    private String ingUrl;
-
-    @DatabaseField
-    private String apiId;
 
     public MovieEntity(){}
 
-    public MovieEntity(long id, String title, String description, int releaseYear, int lengthInMinutes, double rating, String genres, String ingUrl, String apiId) {
+    public MovieEntity(long id, String title, String description, int releaseYear, int lengthInMinutes, double rating, String genres, String imgUrl, String apiId) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -45,7 +46,7 @@ public class MovieEntity {
         this.lengthInMinutes = lengthInMinutes;
         this.rating = rating;
         this.genres = genres;
-        this.ingUrl = ingUrl;
+        this.imgUrl = imgUrl;
         this.apiId = apiId;
     }
 }

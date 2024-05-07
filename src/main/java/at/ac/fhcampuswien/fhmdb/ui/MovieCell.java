@@ -1,12 +1,7 @@
 package at.ac.fhcampuswien.fhmdb.ui;
 
-import at.ac.fhcampuswien.fhmdb.database.DatabaseManager;
-import at.ac.fhcampuswien.fhmdb.database.MovieEntity;
-import at.ac.fhcampuswien.fhmdb.database.WatchlistMovieEntity;
-import at.ac.fhcampuswien.fhmdb.database.WatchlistRepository;
+import at.ac.fhcampuswien.fhmdb.database.*;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
-import com.j256.ormlite.dao.BaseDaoImpl;
-import com.j256.ormlite.dao.Dao;
 import com.jfoenix.controls.JFXButton;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -31,6 +26,7 @@ public class MovieCell extends ListCell<Movie> {
     private final HBox buttonBox = new HBox(5, detailBtn, watchlistBtn);
     private final VBox layout = new VBox(title, detail, genre, buttonBox);
     private boolean collapsedDetails = true;
+    MovieRepository movieRepository = new MovieRepository();
 
     public MovieCell() {
         super();
@@ -63,24 +59,6 @@ public class MovieCell extends ListCell<Movie> {
             setGraphic(layout);
         });
         watchlistBtn.setOnMouseClicked(mouseEvent -> {
-            Movie currentMovie = getItem();
-            if (currentMovie != null) {
-                WatchlistMovieEntity movieEntity = new WatchlistMovieEntity(currentMovie.getApiId(),112);
-                movieEntity.setApiId(currentMovie.getApiId()); // Angenommen, die API-ID des Films entspricht seiner ID;
-                Dao<WatchlistMovieEntity, Long> watchlistDao = null;
-                WatchlistRepository watchlistRepository = new WatchlistRepository(watchlistDao) {
-                }; // Ersetze "yourWatchlistDaoInstance" durch deine tatsächliche Instanz deines Watchlist-Dao
-                try {
-                    int result = watchlistRepository.addToWatchlist(movieEntity);
-                    if (result > 0) {
-                        System.out.println("Adding to watchlist: " + currentMovie.getTitle());
-                    } else {
-                        System.out.println("Movie already exists in watchlist: " + currentMovie.getTitle());
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         });
     }
 

@@ -6,25 +6,17 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "watchlist_movies")
 public class WatchlistMovieEntity {
-    @DatabaseField(id = true)
-    public String apiId; // Assuming apiId is the ID of the movie in the external API
+    @DatabaseField(generatedId = true)
+    public long id;
 
-    @DatabaseField
-    private long id;
+    @DatabaseField(unique = true)
+    private String apiId;
 
-    public String getApiId() {
-        return apiId;
+    public WatchlistMovieEntity() {
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setApiId(String id) {
-    }
-    public WatchlistMovieEntity(){}
-    public WatchlistMovieEntity(String apiId, long id) {
-        this.apiId = apiId;
+    public WatchlistMovieEntity(long id, String apiId) {
         this.id = id;
+        this.apiId = apiId;
     }
 }
