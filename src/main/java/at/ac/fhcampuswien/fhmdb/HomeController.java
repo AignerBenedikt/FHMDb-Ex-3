@@ -47,9 +47,6 @@ public class HomeController implements Initializable {
     public JFXButton sortBtn;
 
     @FXML
-    public JFXButton unFilterBtn;
-
-    @FXML
     public JFXButton windowBtn;
 
     @FXML
