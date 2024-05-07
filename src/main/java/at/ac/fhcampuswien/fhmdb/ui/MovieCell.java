@@ -28,6 +28,8 @@ public class MovieCell extends ListCell<Movie> {
     private boolean collapsedDetails = true;
     MovieRepository movieRepository = new MovieRepository();
 
+    WatchlistRepository watchlistRepository = new WatchlistRepository();
+
     public MovieCell() {
         super();
         // color scheme
@@ -59,6 +61,11 @@ public class MovieCell extends ListCell<Movie> {
             setGraphic(layout);
         });
         watchlistBtn.setOnMouseClicked(mouseEvent -> {
+            try {
+                watchlistRepository.addToWatchlist(getItem());
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         });
     }
 

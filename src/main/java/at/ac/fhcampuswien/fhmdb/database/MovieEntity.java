@@ -1,9 +1,12 @@
 package at.ac.fhcampuswien.fhmdb.database;
 
 import at.ac.fhcampuswien.fhmdb.models.Genre;
+import at.ac.fhcampuswien.fhmdb.models.Movie;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 @DatabaseTable(tableName = "moviesEntity")
@@ -49,5 +52,14 @@ public class MovieEntity {
         this.imgUrl = imgUrl;
         this.apiId = apiId;
     }
+    public String genresToString(List<Genre> genres) {
+        return genres.toString();
+    }
+    /*public List<MovieEntity> fromMovies (List<Movie> movies) {
+
+    }
+    public List<Movie> toMovies (List<MovieEntity> movieEntities) {
+
+    }*/
 }
 
